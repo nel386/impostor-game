@@ -10,7 +10,7 @@ export default function CategorySelector() {
         {language === 'es' ? 'Categorías' : 'Categories'}
       </label>
       
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-3">
         {CATEGORIES.map((category) => {
           const isSelected = selectedCategories.includes(category.id);
           
@@ -20,20 +20,20 @@ export default function CategorySelector() {
               type="button"
               onClick={() => toggleCategory(category.id)}
               className={`
-                flex items-center gap-3 p-4 rounded-lg border-2 transition-all
+                flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border-2 transition-all
                 ${isSelected 
                   ? 'border-yellow-500 bg-yellow-50' 
                   : 'border-gray-200 bg-white hover:border-gray-300'
                 }
               `}
             >
-              <span className="text-2xl">{category.icon}</span>
-              <span className="font-medium text-sm">
+              <span className="text-xl sm:text-2xl">{category.icon}</span>
+              <span className="font-medium text-xs sm:text-sm">
                 {category.label[language]}
               </span>
               
               {isSelected && (
-                <span className="ml-auto text-yellow-500">✓</span>
+                <span className="ml-auto text-yellow-500 text-sm sm:text-base">✓</span>
               )}
             </button>
           );

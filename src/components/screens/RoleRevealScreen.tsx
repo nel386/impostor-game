@@ -30,18 +30,18 @@ export default function RoleRevealScreen() {
   if (!currentPlayer) return null;
   
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 sm:p-6">
       <div className="w-full max-w-md space-y-6">
         {/* Instruction Card */}
         {!isRevealed && (
-          <div className="bg-white rounded-2xl shadow-2xl p-8 text-center space-y-6">
-            <div className="text-6xl">🎴</div>
+          <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 text-center space-y-4 sm:space-y-6">
+            <div className="text-5xl sm:text-6xl">🎴</div>
             
             <div className="space-y-2">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
                 {currentPlayer.name}
               </h2>
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 {language === 'es' 
                   ? 'Toma el móvil y pulsa el botón' 
                   : 'Take the phone and tap the button'
@@ -64,39 +64,39 @@ export default function RoleRevealScreen() {
         
         {/* Role Card */}
         {isRevealed && (
-          <div className="bg-white rounded-2xl shadow-2xl p-8 text-center space-y-6 animate-fade-in">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 text-center space-y-4 sm:space-y-6 animate-fade-in">
             {currentPlayer.role === 'civil' ? (
               <>
-                <div className="text-6xl">✅</div>
+                <div className="text-5xl sm:text-6xl">✅</div>
                 
                 <div className="space-y-2">
-                  <h3 className="text-lg font-medium text-gray-600">
+                  <h3 className="text-base sm:text-lg font-medium text-gray-600">
                     {language === 'es' ? 'Tu palabra es:' : 'Your word is:'}
                   </h3>
-                  <div className="text-5xl font-bold text-yellow-600">
+                  <div className="text-3xl sm:text-5xl font-bold text-yellow-600 break-words">
                     {word}
                   </div>
                 </div>
               </>
             ) : (
               <>
-                <div className="text-6xl">🎭</div>
+                <div className="text-5xl sm:text-6xl">🎭</div>
                 
                 <div className="space-y-2">
-                  <h3 className="text-lg font-medium text-gray-600">
+                  <h3 className="text-base sm:text-lg font-medium text-gray-600">
                     {language === 'es' ? 'Eres el' : 'You are the'}
                   </h3>
-                  <div className="text-5xl font-bold text-red-600">
+                  <div className="text-3xl sm:text-5xl font-bold text-red-600">
                     {language === 'es' ? 'IMPOSTOR' : 'IMPOSTOR'}
                   </div>
                 </div>
                 
                 {showHint && hint && (
-                  <div className="bg-gray-100 p-4 rounded-lg">
+                  <div className="bg-gray-100 p-3 sm:p-4 rounded-lg">
                     <div className="text-xs text-gray-500 mb-1">
                       {language === 'es' ? 'Pista:' : 'Hint:'}
                     </div>
-                    <div className="text-sm font-medium text-gray-700">
+                    <div className="text-xs sm:text-sm font-medium text-gray-700">
                       {hint}
                     </div>
                   </div>
@@ -105,7 +105,7 @@ export default function RoleRevealScreen() {
             )}
             
             <div className="pt-4 space-y-3">
-              <p className="text-sm text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-500">
                 {language === 'es' 
                   ? 'Memoriza tu carta y pasa el móvil' 
                   : 'Memorize your card and pass the phone'
