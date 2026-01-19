@@ -3,6 +3,7 @@ import Button from '../ui/Button';
 import CategorySelector from '../ui/CategorySelector';
 import LanguageToggle from '../ui/LanguageToggle';
 import PlayerCounter from '../ui/PlayerCounter';
+import ImpostorCounter from '../ui/ImpostorCounter'; // NUEVO
 import PlayerNameInput from '../ui/PlayerNameInput';
 
 export default function GameSetupScreen() {
@@ -33,6 +34,9 @@ export default function GameSetupScreen() {
         
         {/* Player Counter */}
         <PlayerCounter />
+        
+        {/* NUEVO: Impostor Counter */}
+        <ImpostorCounter />
         
         {/* Player Names */}
         <PlayerNameInput />

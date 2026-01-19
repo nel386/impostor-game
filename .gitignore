@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Archivos de exportación del proyecto
+export-project.ps1
+project-export.txt

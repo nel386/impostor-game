@@ -4,6 +4,7 @@ import { calculateImpostorCount, selectWord } from '../utils/gameLogic';
 
 interface GameStore extends GameState {
   // Actions
+  setImpostorCount: (count: number) => void;
   setConfig: (config: Partial<GameConfig>) => void;
   toggleCategory: (category: Category) => void;
   setLanguage: (language: Language) => void;
@@ -30,6 +31,7 @@ interface GameStore extends GameState {
 
 const initialState: GameState = {
   totalPlayers: 5,
+  impostorCount: 1,
   language: 'es',
   selectedCategories: ['animals', 'places', 'food'],
   showHint: true,
@@ -54,6 +56,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
   // NUEVO: Estado de nombres personalizados
   customNames: [],
   useCustomNames: false,
+
+  // NUEVO: Contador de impostores
+  impostorCount: 1,
   
   setConfig: (config) => set((state) => ({ ...state, ...config })),
   
@@ -75,8 +80,19 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const newNames = Array.from({ length: totalPlayers }, (_, i) => 
       currentNames[i] || ''
     );
-    
-    set({ totalPlayers, customNames: newNames });
+    // Calcular máximo de impostores permitido (la mitad redondeada hacia abajo, mínimo 1)
+    const maxImpostors = Math.max(1, Math.floor(totalPlayers / 2));
+    const newImpostorCount = Math.min(state.impostorCount ?? 1, maxImpostors);
+
+    set({ totalPlayers, customNames: newNames, impostorCount: newImpostorCount });
+  },
+
+  // NUEVO: Acción para cambiar número de impostores
+  setImpostorCount: (impostorCount) => {
+    const state = get();
+    const maxImpostors = Math.max(1, Math.floor(state.totalPlayers / 2));
+    const clamped = Math.min(Math.max(1, impostorCount), maxImpostors);
+    set({ impostorCount: clamped });
   },
   
   setShowHint: (showHint) => set({ showHint }),
@@ -109,8 +125,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     // Seleccionar palabra
     const wordData = selectWord(language, selectedCategories);
     
-    // Calcular impostores
-    const impostorCount = calculateImpostorCount(totalPlayers);
+    // Usar el número de impostores seleccionado por el usuario
+    const impostorCount = state.impostorCount ?? calculateImpostorCount(totalPlayers);
     
     // Crear jugadores con nombres personalizados o por defecto
     const players: Player[] = Array.from({ length: totalPlayers }, (_, i) => {
@@ -245,5 +261,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
     ...initialState,
     customNames: [],
     useCustomNames: false,
+    impostorCount: 1,
   }),
 }));

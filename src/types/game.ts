@@ -36,6 +36,7 @@ export interface WordData {
 
 export interface GameConfig {
   totalPlayers: number;
+  impostorCount: number;
   language: Language;
   selectedCategories: Category[];
   showHint: boolean;
