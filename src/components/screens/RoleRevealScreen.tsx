@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../ui/Button';
+import CardReveal from '../ui/CardReveal';
 import { useGameStore } from '../../store/gameStore';
 
 export default function RoleRevealScreen() {
@@ -13,114 +15,234 @@ export default function RoleRevealScreen() {
     nextReveal 
   } = useGameStore();
   
-  const [isRevealed, setIsRevealed] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+  const [cardRevealed, setCardRevealed] = useState(false);
   
   const currentPlayer = players[currentRevealIndex];
   const isLastPlayer = currentRevealIndex === players.length - 1;
   
-  const handleReveal = () => {
-    setIsRevealed(true);
+  const handleStartReveal = () => {
+    setShowCard(true);
+    setCardRevealed(false);
+  };
+  
+  const handleCardRevealed = () => {
+    setCardRevealed(true);
   };
   
   const handleNext = () => {
-    setIsRevealed(false);
+    setShowCard(false);
+    setCardRevealed(false);
     nextReveal();
   };
   
   if (!currentPlayer) return null;
   
+  const isImpostor = currentPlayer.role === 'impostor';
+  
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4 sm:p-6">
       <div className="w-full max-w-md space-y-6">
-        {/* Instruction Card */}
-        {!isRevealed && (
-          <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 text-center space-y-4 sm:space-y-6">
-            <div className="text-5xl sm:text-6xl">🎴</div>
-            
-            <div className="space-y-2">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
-                {currentPlayer.name}
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600">
-                {language === 'es' 
-                  ? 'Toma el móvil y pulsa el botón' 
-                  : 'Take the phone and tap the button'
-                }
-              </p>
-            </div>
-            
-            <Button size="lg" onClick={handleReveal} className="w-full">
-              {language === 'es' ? '👁️ Ver mi carta' : '👁️ See my card'}
-            </Button>
-            
-            <div className="text-xs text-gray-400">
-              {language === 'es' 
-                ? `Jugador ${currentRevealIndex + 1} de ${players.length}` 
-                : `Player ${currentRevealIndex + 1} of ${players.length}`
-              }
-            </div>
-          </div>
-        )}
-        
-        {/* Role Card */}
-        {isRevealed && (
-          <div className="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 text-center space-y-4 sm:space-y-6 animate-fade-in">
-            {currentPlayer.role === 'civil' ? (
-              <>
-                <div className="text-5xl sm:text-6xl">✅</div>
-                
-                <div className="space-y-2">
-                  <h3 className="text-base sm:text-lg font-medium text-gray-600">
-                    {language === 'es' ? 'Tu palabra es:' : 'Your word is:'}
-                  </h3>
-                  <div className="text-3xl sm:text-5xl font-bold text-yellow-600 break-words">
-                    {word}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="text-5xl sm:text-6xl">🎭</div>
-                
-                <div className="space-y-2">
-                  <h3 className="text-base sm:text-lg font-medium text-gray-600">
-                    {language === 'es' ? 'Eres el' : 'You are the'}
-                  </h3>
-                  <div className="text-3xl sm:text-5xl font-bold text-red-600">
-                    {language === 'es' ? 'IMPOSTOR' : 'IMPOSTOR'}
-                  </div>
-                </div>
-                
-                {showHint && hint && (
-                  <div className="bg-gray-100 p-3 sm:p-4 rounded-lg">
-                    <div className="text-xs text-gray-500 mb-1">
-                      {language === 'es' ? 'Pista:' : 'Hint:'}
-                    </div>
-                    <div className="text-xs sm:text-sm font-medium text-gray-700">
-                      {hint}
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-            
-            <div className="pt-4 space-y-3">
-              <p className="text-xs sm:text-sm text-gray-500">
-                {language === 'es' 
-                  ? 'Memoriza tu carta y pasa el móvil' 
-                  : 'Memorize your card and pass the phone'
-                }
-              </p>
+        <AnimatePresence mode="wait">
+          {!showCard && (
+            <motion.div
+              key="instruction"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="bg-gradient-to-br from-white via-slate-50 to-slate-100 rounded-3xl shadow-2xl p-10 text-center space-y-7 border border-slate-200"
+            >
+              <motion.div 
+                className="text-7xl"
+                animate={{ 
+                  rotate: [0, -8, 8, -8, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ 
+                  duration: 0.8, 
+                  delay: 0.2,
+                  ease: "easeOut"
+                }}
+              >
+                🎴
+              </motion.div>
               
-              <Button size="lg" onClick={handleNext} className="w-full">
-                {isLastPlayer 
-                  ? (language === 'es' ? '✅ Empezar discusión' : '✅ Start discussion')
-                  : (language === 'es' ? '➡️ Siguiente jugador' : '➡️ Next player')
-                }
-              </Button>
-            </div>
-          </div>
-        )}
+              <div className="space-y-4">
+                <motion.h2 
+                  className="text-3xl font-black text-slate-900 tracking-tight"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {currentPlayer.name}
+                </motion.h2>
+                
+                <motion.div
+                  className="space-y-2"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <p className="text-base font-semibold text-slate-700">
+                    {language === 'es' ? '🔒 Privacidad requerida' : '🔒 Privacy required'}
+                  </p>
+                  <p className="text-sm text-slate-600 leading-relaxed max-w-xs mx-auto">
+                    {language === 'es' 
+                      ? 'Asegúrate de que nadie más pueda ver la pantalla' 
+                      : 'Make sure nobody else can see the screen'
+                    }
+                  </p>
+                </motion.div>
+              </div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Button 
+                  size="lg" 
+                  onClick={handleStartReveal} 
+                  className="w-full shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold py-4"
+                >
+                  {language === 'es' ? '👁️ Revelar mi rol' : '👁️ Reveal my role'}
+                </Button>
+              </motion.div>
+              
+              <motion.div 
+                className="pt-4 border-t border-slate-200"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+              >
+                <p className="text-xs text-slate-500 font-semibold">
+                  {language === 'es' 
+                    ? `Jugador ${currentRevealIndex + 1} de ${players.length}` 
+                    : `Player ${currentRevealIndex + 1} of ${players.length}`
+                  }
+                </p>
+              </motion.div>
+            </motion.div>
+          )}
+          
+          {showCard && (
+            <motion.div
+              key="card"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="space-y-6"
+            >
+              <div className="h-[550px] sm:h-[600px]">
+                <CardReveal 
+                  onFullyRevealed={handleCardRevealed}
+                  language={language}
+                >
+                  <div className="w-full h-full flex items-center justify-center p-6">
+                    <div className="text-center space-y-8 max-w-sm w-full px-4">
+                      <motion.div 
+                        className="text-7xl"
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 180, 
+                          damping: 12,
+                          delay: 0.1 
+                        }}
+                      >
+                        {isImpostor ? '🎭' : '🎯'}
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="space-y-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        <h3 className="text-sm font-bold text-slate-500 uppercase tracking-widest">
+                          {isImpostor 
+                            ? (language === 'es' ? 'Eres el' : 'You are the')
+                            : (language === 'es' ? 'Tu palabra' : 'Your word')
+                          }
+                        </h3>
+                        
+                        <motion.div 
+                          className="text-4xl sm:text-5xl font-black tracking-tight text-slate-900 break-words"
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ 
+                            type: "spring", 
+                            stiffness: 200,
+                            delay: 0.4 
+                          }}
+                        >
+                          {isImpostor 
+                            ? (language === 'es' ? 'IMPOSTOR' : 'IMPOSTOR')
+                            : word?.toUpperCase()
+                          }
+                        </motion.div>
+                      </motion.div>
+                      
+                      {isImpostor && showHint && hint && (
+                        <motion.div 
+                          className="bg-gradient-to-br from-slate-100 to-slate-200 p-5 rounded-2xl shadow-inner border border-slate-300"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.6 }}
+                        >
+                          <div className="text-xs text-slate-600 font-bold mb-2 uppercase tracking-wider flex items-center justify-center gap-1.5">
+                            <span>💡</span>
+                            <span>{language === 'es' ? 'Pista' : 'Hint'}</span>
+                          </div>
+                          <div className="text-sm font-semibold text-slate-800 leading-relaxed">
+                            {hint}
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </CardReveal>
+              </div>
+              
+              <AnimatePresence>
+                {cardRevealed && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 30 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="space-y-4"
+                  >
+                    <motion.p 
+                      className="text-sm text-slate-400 text-center font-medium px-4"
+                      animate={{ opacity: [0.7, 1, 0.7] }}
+                      transition={{ duration: 2.5, repeat: Infinity }}
+                    >
+                      {language === 'es' 
+                        ? '🧠 Memoriza tu rol y pasa el dispositivo' 
+                        : '🧠 Memorize your role and pass the device'
+                      }
+                    </motion.p>
+                    
+                    <Button 
+                      size="lg" 
+                      onClick={handleNext} 
+                      className="w-full shadow-xl hover:shadow-2xl transition-all duration-300 text-base font-bold py-4"
+                    >
+                      {isLastPlayer 
+                        ? (language === 'es' ? '✅ Empezar discusión' : '✅ Start discussion')
+                        : (language === 'es' ? '➡️ Siguiente jugador' : '➡️ Next player')
+                      }
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
