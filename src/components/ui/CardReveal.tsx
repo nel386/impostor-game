@@ -1,5 +1,5 @@
-import { motion, useMotionValue, useTransform, animate, type PanInfo } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useMotionValue, useTransform, animate, type PanInfo, useMotionValueEvent } from 'framer-motion';
+import { useRef, useState } from 'react';
 
 interface CardRevealProps {
   children: React.ReactNode;
@@ -12,6 +12,7 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
   
   const sliderY = useMotionValue(0);
   const dragY = useMotionValue(0);
+  const [progressPercent, setProgressPercent] = useState(0);
   
   const handleTopPercent = useTransform(sliderY, [0, 100], [75, 0]);
   const clipBottom = useTransform(sliderY, [0, 100], [0, 100]);
@@ -19,6 +20,10 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
   
   const badgeOpacity = useTransform(sliderY, [70, 85], [0, 1]);
   const badgeScale = useTransform(sliderY, [70, 85], [0.9, 1]);
+  
+  useMotionValueEvent(sliderY, "change", (latest) => {
+    setProgressPercent(Math.round(latest));
+  });
   
   const handleDrag = (_: any, info: PanInfo) => {
     if (!containerRef.current) return;
@@ -61,8 +66,10 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
   return (
     <div 
       ref={containerRef}
-      className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl"
+      className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl isolate"
     >
+      <div className="absolute inset-0 bg-slate-900" />
+      
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 flex items-center justify-center">
         {children}
       </div>
@@ -77,11 +84,9 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
         }}
       >
         <div className="w-full h-full relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-          {/* Efecto de profundidad con capas */}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-slate-700/10 to-slate-900/30" />
           
-          {/* Noise texture sutil */}
           <div 
             className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
             style={{
@@ -89,7 +94,6 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
             }}
           />
           
-          {/* Spotlight efecto */}
           <div className="absolute inset-0 bg-gradient-radial from-slate-700/20 via-transparent to-transparent opacity-40" />
           
           <div className="relative h-full flex flex-col items-center justify-center gap-8 px-8">
@@ -147,7 +151,7 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
                   opacity: useTransform(sliderY, [0, 5], [0, 1])
                 }}
               >
-                {Math.round(useTransform(sliderY, (v) => v).get())}%
+                {progressPercent}%
               </motion.p>
             </div>
           </div>
