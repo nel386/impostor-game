@@ -1,22 +1,25 @@
+import type { IconType } from "react-icons";
+
 export type Language = 'es' | 'en';
 
-export type Category = 
-  | 'animals' 
-  | 'places' 
-  | 'professions' 
-  | 'movies' 
-  | 'food' 
-  | 'sports' 
-  | 'objects';
+export type Category =
+  | 'animals'
+  | 'places'
+  | 'professions'
+  | 'movies'
+  | 'food'
+  | 'sports'
+  | 'objects'
+  | 'football';
 
 export type Role = 'civil' | 'impostor';
 
-export type GameStatus = 
-  | 'setup' 
-  | 'reveal' 
-  | 'discussion' 
-  | 'voting' 
-  | 'resolution' 
+export type GameStatus =
+  | 'setup'
+  | 'reveal'
+  | 'discussion'
+  | 'voting'
+  | 'resolution'
   | 'ended';
 
 export type Winner = 'civils' | 'impostors' | null;
@@ -32,6 +35,7 @@ export interface Player {
 export interface WordData {
   word: string;
   hint: string;
+  category: Category;
 }
 
 export interface GameConfig {
@@ -43,21 +47,18 @@ export interface GameConfig {
 }
 
 export interface GameState extends GameConfig {
-  // Palabra de la partida (NO cambia entre rondas)
   word: string;
   hint: string;
-  
-  // Jugadores
+  category: Category;
+
   players: Player[];
-  
-  // Estado del juego
+
   round: number;
   gameStatus: GameStatus;
   winner: Winner;
-  
-  // Tracking
-  currentRevealIndex: number; // Para "pasa el móvil"
-  votes: Record<number, number>; // { voterId: votedPlayerId }
+
+  currentRevealIndex: number; 
+  votes: Record<number, number>; 
   lastEliminatedPlayer: Player | null;
   lastEliminatedWasImpostor: boolean;
 }
@@ -68,5 +69,5 @@ export interface CategoryInfo {
     es: string;
     en: string;
   };
-  icon: string;
+  icon: IconType
 }

@@ -9,16 +9,21 @@ export function calculateImpostorCount(totalPlayers: number): number {
 }
 
 export function selectWord(language: Language, categories: Category[]): WordData {
-  const availableWords: WordData[] = [];
+  const availableWords: { category: Category; words: WordData[] }[] = [];
   
   categories.forEach(category => {
     const categoryWords = WORDS[language][category];
-    availableWords.push(...categoryWords);
+    availableWords.push({ category, words: categoryWords });
   });
   
-  const randomIndex = Math.floor(Math.random() * availableWords.length);
-  return availableWords[randomIndex];
+  const allWords = availableWords.flatMap(({ category, words }) => 
+    words.map(wordData => ({ ...wordData, category }))
+  );
+  
+  const randomIndex = Math.floor(Math.random() * allWords.length);
+  return allWords[randomIndex];
 }
+
 
 export function checkVictory(alivePlayers: number, aliveImpostors: number): 'civils' | 'impostors' | null {
   if (aliveImpostors === 0) return 'civils';

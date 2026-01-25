@@ -1,20 +1,22 @@
 import { animate, motion, type PanInfo, useMotionValue, useMotionValueEvent, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
+import { LuArrowUp, LuCheck, LuChevronUp } from 'react-icons/lu';
+import { useTranslation } from '../../i18n/useTranslation';
 
 interface CardRevealProps {
     children: React.ReactNode;
     onFullyRevealed?: () => void;
-    language?: 'es' | 'en';
 }
 
-export default function CardReveal({ children, onFullyRevealed, language = 'es' }: CardRevealProps) {
+export default function CardReveal({ children, onFullyRevealed }: CardRevealProps) {
+    const { t } = useTranslation();
     const containerRef = useRef<HTMLDivElement>(null);
 
     const sliderY = useMotionValue(0);
     const dragY = useMotionValue(0);
     const [progressPercent, setProgressPercent] = useState(0);
 
-    const handleTopPercent = useTransform(sliderY, [0, 100], [75, 0]);
+    const handleTopPercent = useTransform(sliderY, [0, 100], [75, 3]);
     const clipBottom = useTransform(sliderY, [0, 100], [0, 100]);
     const progress = useTransform(sliderY, [0, 100], [0, 100]);
 
@@ -40,6 +42,8 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
         const currentY = sliderY.get();
 
         if (currentY > 70) {
+            dragY.set(0);
+
             animate(sliderY, 100, {
                 type: "spring",
                 stiffness: 300,
@@ -68,12 +72,15 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
             ref={containerRef}
             className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl isolate select-none"
         >
+            {/* Base layer */}
             <div className="absolute inset-0 bg-slate-900" />
 
+            {/* Content layer - REVELADO */}
             <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 flex items-center justify-center">
                 {children}
             </div>
 
+            {/* Overlay oscuro - CUBRE el contenido */}
             <motion.div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -84,9 +91,11 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
                 }}
             >
                 <div className="w-full h-full relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+                    {/* Gradiente sutil superior */}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent" />
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-slate-700/10 to-slate-900/30" />
 
+                    {/* Noise texture */}
                     <div
                         className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
                         style={{
@@ -94,9 +103,12 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
                         }}
                     />
 
+                    {/* Radial gradient */}
                     <div className="absolute inset-0 bg-gradient-radial from-slate-700/20 via-transparent to-transparent opacity-40" />
 
-                    <div className="relative h-full flex flex-col items-center justify-center gap-8 px-8">
+                    {/* Instrucciones centradas */}
+                    <div className="relative h-full flex flex-col items-center justify-center gap-6 px-8">
+                        {/* Icono animado */}
                         <motion.div
                             animate={{
                                 y: [0, -12, 0],
@@ -106,26 +118,28 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
                                 repeat: Infinity,
                                 ease: "easeInOut"
                             }}
-                            className="text-7xl filter drop-shadow-2xl"
+                            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 shadow-2xl"
                         >
-                            👆
+                            <LuChevronUp className="w-10 h-10 text-white" strokeWidth={3} />
                         </motion.div>
 
-                        <div className="text-center space-y-3">
+                        {/* Texto */}
+                        <div className="text-center space-y-2">
                             <motion.h3
                                 className="text-2xl font-bold text-white tracking-tight"
                                 animate={{ opacity: [0.9, 1, 0.9] }}
                                 transition={{ duration: 2.5, repeat: Infinity }}
                             >
-                                {language === 'es' ? 'Desliza hacia arriba' : 'Swipe up'}
+                                {t.cardReveal.swipeUp}
                             </motion.h3>
                             <p className="text-sm text-slate-400 font-medium">
-                                {language === 'es' ? 'Arrastra para revelar tu rol' : 'Drag to reveal your role'}
+                                {t.cardReveal.dragToReveal}
                             </p>
                         </div>
 
-                        <div className="w-64 space-y-3">
-                            <div className="relative h-1.5 bg-slate-700/30 rounded-full overflow-hidden backdrop-blur-sm">
+                        {/* Progress bar */}
+                        <div className="w-64 space-y-2">
+                            <div className="relative h-2 bg-slate-700/30 rounded-full overflow-hidden backdrop-blur-sm">
                                 <motion.div
                                     className="h-full bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 rounded-full relative"
                                     style={{
@@ -146,7 +160,7 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
                                 </motion.div>
                             </div>
                             <motion.p
-                                className="text-xs text-center text-slate-500 font-semibold"
+                                className="text-xs text-center text-slate-400 font-semibold tabular-nums"
                                 style={{
                                     opacity: useTransform(sliderY, [0, 5], [0, 1])
                                 }}
@@ -158,6 +172,7 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
                 </div>
             </motion.div>
 
+            {/* Handle draggable */}
             <motion.div
                 drag="y"
                 dragDirectionLock
@@ -173,41 +188,38 @@ export default function CardReveal({ children, onFullyRevealed, language = 'es' 
                 }}
                 className="absolute left-0 right-0 -translate-y-1/2 cursor-grab active:cursor-grabbing z-30"
             >
-                <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center gap-3">
+                    {/* Badge "Revelado" */}
                     <motion.div
                         style={{
                             opacity: badgeOpacity,
                             scale: badgeScale
                         }}
-                        className="pointer-events-none mt-2"
+                        className="pointer-events-none"
                     >
-                        <div className="bg-gradient-to-r from-slate-700 to-slate-800 text-white px-6 py-2.5 rounded-full shadow-2xl flex items-center gap-2.5 border border-slate-600">
-                            <motion.span
-                                animate={{ scale: [1, 1.2, 1] }}
-                                transition={{ duration: 1.5, repeat: Infinity }}
-                                className="text-base"
-                            >
-                                ✓
-                            </motion.span>
+                        <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-5 py-2 rounded-full shadow-2xl flex items-center gap-2 border border-green-500">
+                            <LuCheck className="w-4 h-4" strokeWidth={3} />
                             <span className="text-sm font-bold whitespace-nowrap">
-                                {language === 'es' ? 'Revelado' : 'Revealed'}
+                                {t.cardReveal.revealed}
                             </span>
                         </div>
                     </motion.div>
 
+                    {/* Badge "Arrastra" */}
                     <motion.div
-                        className="flex items-center gap-2.5 px-5 py-2 bg-slate-900/95 backdrop-blur-xl rounded-full border border-slate-700 shadow-2xl"
+                        className="flex items-center gap-2 px-4 py-1.5 bg-slate-900/95 backdrop-blur-xl rounded-full border border-slate-700 shadow-2xl"
                         style={{
                             opacity: useTransform(sliderY, [0, 25], [1, 0])
                         }}
                     >
-                        <span className="text-xl">👆</span>
+                        <LuArrowUp className="w-4 h-4 text-white" />
                         <span className="text-xs text-white font-bold tracking-wide">
-                            {language === 'es' ? 'Arrastra' : 'Drag'}
+                            {t.cardReveal.drag}
                         </span>
                     </motion.div>
 
-                    <div className="w-28 h-1.5 bg-white rounded-full shadow-2xl" />
+                    {/* Barra de agarre */}
+                    <div className="w-24 h-1.5 bg-white rounded-full shadow-2xl" />
                 </div>
             </motion.div>
         </div>

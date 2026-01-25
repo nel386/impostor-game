@@ -1,4 +1,3 @@
-// src/contexts/ThemeContext.tsx
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 type Theme = 'light' | 'dark';
@@ -12,11 +11,9 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(() => {
-    // Leer del localStorage O detectar preferencia del sistema
     const saved = localStorage.getItem('theme');
     if (saved) return saved as Theme;
     
-    // Si no hay preferencia guardada, usar la del sistema
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
     }
