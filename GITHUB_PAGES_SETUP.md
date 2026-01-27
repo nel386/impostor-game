@@ -35,8 +35,8 @@ https://nel386.github.io/impostor-game/
 ## Archivos importantes
 
 - **`.github/workflows/deploy.yml`**: Workflow de GitHub Actions
-- **`vite.config.ts`**: Configuración de Vite con `base: '/impostor-game/'` para GitHub Pages
-- **`package.json`**: Contiene el campo `homepage` que apunta a la URL de GitHub Pages
+- **`vite.config.ts`**: Configuración de Vite con `base: '/impostor-game/'` para GitHub Pages (este es el archivo que determina las rutas correctas)
+- **`package.json`**: Contiene el campo `homepage` (opcional, usado por gh-pages CLI) y el script `deploy` para despliegue manual si se necesita
 
 ## Solución de problemas
 
@@ -57,4 +57,7 @@ https://nel386.github.io/impostor-game/
 Si previamente usabas la rama `gh-pages` con `npm run deploy`:
 1. La rama `gh-pages` ya no es necesaria (pero puedes mantenerla si quieres)
 2. El workflow ahora maneja todo automáticamente
-3. El comando `npm run deploy` aún funciona, pero no es recomendado usarlo
+3. El comando `npm run deploy` todavía existe y funciona como respaldo manual:
+   - Útil si el workflow de GitHub Actions falla
+   - Requiere ejecutar `npm run build` primero
+   - Sube directamente a la rama gh-pages (no recomendado para uso regular)
