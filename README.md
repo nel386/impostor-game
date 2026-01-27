@@ -88,10 +88,13 @@ npm run build
 
 # Vista previa del build
 npm run preview
-
-# Deploy a GitHub Pages
-npm run deploy
 ```
+
+## 🚀 Despliegue
+
+El proyecto se despliega automáticamente a GitHub Pages cuando se hace push a la rama `main` mediante GitHub Actions. No es necesario ejecutar `npm run deploy` manualmente.
+
+El sitio está disponible en: https://nel386.github.io/impostor-game/
 
 ## 🏗️ Estructura del proyecto
 
@@ -186,9 +189,6 @@ npm run dev              # Servidor de desarrollo (localhost:5173)
 # Build
 npm run build            # Build optimizado para producción
 npm run preview          # Preview del build
-
-# Deploy
-npm run deploy           # Deploy automático a GitHub Pages
 
 # Linting
 npm run lint             # ESLint check
