@@ -46,4 +46,4 @@ export default function StartingPlayerScreen() {
       </motion.div>
     </div>
   );
-}
+} 
