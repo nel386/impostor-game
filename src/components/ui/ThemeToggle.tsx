@@ -7,9 +7,12 @@ export default function ThemeToggle() {
   
   return (
     <motion.button
+      type="button"
       onClick={toggleTheme}
       className="relative w-16 h-8 rounded-full bg-slate-200 dark:bg-slate-700 transition-colors shadow-inner"
       whileTap={{ scale: 0.95 }}
+      role="switch"
+      aria-checked={theme === 'dark'}
       aria-label="Toggle theme"
     >
       <motion.div

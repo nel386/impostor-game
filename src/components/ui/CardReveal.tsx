@@ -72,15 +72,15 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
             ref={containerRef}
             className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl isolate select-none"
         >
-            {/* Base layer */}
+            
             <div className="absolute inset-0 bg-slate-900" />
 
-            {/* Content layer - REVELADO */}
+            
             <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-800 dark:via-slate-700 dark:to-slate-800 flex items-center justify-center">
                 {children}
             </div>
 
-            {/* Overlay oscuro - CUBRE el contenido */}
+            
             <motion.div
                 className="absolute inset-0 pointer-events-none"
                 style={{
@@ -91,11 +91,11 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                 }}
             >
                 <div className="w-full h-full relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-                    {/* Gradiente sutil superior */}
+                    
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent" />
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-slate-700/10 to-slate-900/30" />
 
-                    {/* Noise texture */}
+                    
                     <div
                         className="absolute inset-0 opacity-[0.015] mix-blend-overlay"
                         style={{
@@ -103,12 +103,12 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                         }}
                     />
 
-                    {/* Radial gradient */}
+                    
                     <div className="absolute inset-0 bg-gradient-radial from-slate-700/20 via-transparent to-transparent opacity-40" />
 
-                    {/* Instrucciones centradas */}
+                    
                     <div className="relative h-full flex flex-col items-center justify-center gap-6 px-8">
-                        {/* Icono animado */}
+                        
                         <motion.div
                             animate={{
                                 y: [0, -12, 0],
@@ -123,7 +123,7 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                             <LuChevronUp className="w-10 h-10 text-white" strokeWidth={3} />
                         </motion.div>
 
-                        {/* Texto */}
+                        
                         <div className="text-center space-y-2">
                             <motion.h3
                                 className="text-2xl font-bold text-white tracking-tight"
@@ -137,7 +137,7 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                             </p>
                         </div>
 
-                        {/* Progress bar */}
+                        
                         <div className="w-64 space-y-2">
                             <div className="relative h-2 bg-slate-700/30 rounded-full overflow-hidden backdrop-blur-sm">
                                 <motion.div
@@ -172,7 +172,7 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                 </div>
             </motion.div>
 
-            {/* Handle draggable */}
+            
             <motion.div
                 drag="y"
                 dragDirectionLock
@@ -189,7 +189,7 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                 className="absolute left-0 right-0 -translate-y-1/2 cursor-grab active:cursor-grabbing z-30"
             >
                 <div className="flex flex-col items-center gap-3">
-                    {/* Badge "Revelado" */}
+                    
                     <motion.div
                         style={{
                             opacity: badgeOpacity,
@@ -205,7 +205,7 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                         </div>
                     </motion.div>
 
-                    {/* Badge "Arrastra" */}
+                    
                     <motion.div
                         className="flex items-center gap-2 px-4 py-1.5 bg-slate-900/95 backdrop-blur-xl rounded-full border border-slate-700 shadow-2xl"
                         style={{
@@ -218,7 +218,7 @@ export default function CardReveal({ children, onFullyRevealed }: CardRevealProp
                         </span>
                     </motion.div>
 
-                    {/* Barra de agarre */}
+                    
                     <div className="w-24 h-1.5 bg-white rounded-full shadow-2xl" />
                 </div>
             </motion.div>

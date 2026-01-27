@@ -31,7 +31,7 @@ export default function EndGameScreen() {
       {civilsWon && <Confetti width={width} height={height} numberOfPieces={500} recycle={false} />}
 
       <div className="w-full max-w-3xl space-y-6 sm:space-y-8">
-        {/* Winner Announcement */}
+        
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -60,14 +60,14 @@ export default function EndGameScreen() {
           </p>
         </motion.div>
 
-        {/* Main Card */}
+        
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="bg-white/10 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-6 border border-white/20"
         >
-          {/* Player Reveal */}
+          
           <div>
             <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 flex items-center gap-2 sm:gap-3">
               <LuVenetianMask className="text-2xl sm:text-3xl" />
@@ -122,7 +122,7 @@ export default function EndGameScreen() {
             </div>
           </div>
 
-          {/* Stats */}
+          
           <div className="grid grid-cols-3 gap-2 sm:gap-4 pt-4 sm:pt-6 border-t border-white/20">
             <div className="text-center">
               <LuUsers className="text-3xl sm:text-4xl text-white/80 mx-auto mb-1 sm:mb-2" />
@@ -149,7 +149,7 @@ export default function EndGameScreen() {
             </div>
           </div>
 
-          {/* Actions */}
+          
           <Button
             size="lg"
             onClick={resetGame}

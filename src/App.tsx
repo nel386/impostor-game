@@ -5,6 +5,7 @@ import EndGameScreen from './components/screens/EndGameScreen';
 import GameSetupScreen from './components/screens/GameSetupScreen';
 import ResolutionScreen from './components/screens/ResolutionScreen';
 import RoleRevealScreen from './components/screens/RoleRevealScreen';
+import StartingPlayerScreen from './components/screens/StartingPlayerScreen';
 import VotingScreen from './components/screens/VotingScreen';
 import { useGameStore } from './store/gameStore';
 
@@ -24,6 +25,7 @@ export default function App() {
         >
           {gameStatus === 'setup' && <GameSetupScreen />}
           {gameStatus === 'reveal' && <RoleRevealScreen />}
+          {gameStatus === 'starting' && <StartingPlayerScreen />}
           {gameStatus === 'discussion' && <DiscussionScreen />}
           {gameStatus === 'voting' && <VotingScreen />}
           {gameStatus === 'resolution' && <ResolutionScreen />}

@@ -1,4 +1,4 @@
-/* Custom Scrollbar - mismo estilo que PlayerNameInput */
+
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
 }
@@ -18,7 +18,7 @@
   background: rgb(148 163 184);
 }
 
-/* Dark mode */
+
 .dark .custom-scrollbar::-webkit-scrollbar-track {
   background: rgb(30 41 59);
 }
@@ -31,7 +31,7 @@
   background: rgb(100 116 139);
 }
 
-/* Firefox */
+
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgb(203 213 225) rgb(241 245 249);

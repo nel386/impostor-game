@@ -34,7 +34,8 @@ export default function RoleRevealScreen() {
     hint,
     showHint,
     nextReveal,
-    category
+    category,
+    startingPlayerId
   } = useGameStore();
 
   const [showCard, setShowCard] = useState(false);
@@ -193,7 +194,7 @@ export default function RoleRevealScreen() {
                 >
                   <div className="w-full h-full flex items-center justify-center p-6">
                     <div className="text-center space-y-8 max-w-sm w-full px-4">
-                      {/* Role Icon - Dinámico según categoría */}
+                      
                       <motion.div
                         className="flex items-center justify-center text-slate-700 dark:text-slate-300"
                         initial={{ scale: 0, rotate: -180 }}
@@ -208,7 +209,7 @@ export default function RoleRevealScreen() {
                         {getRoleIcon()}
                       </motion.div>
 
-                      {/* Role/Word Content */}
+                      
                       <motion.div
                         className="space-y-4"
                         initial={{ opacity: 0, y: 20 }}
@@ -219,15 +220,16 @@ export default function RoleRevealScreen() {
                           {isImpostor ? t.roleReveal.youAreThe : t.roleReveal.yourWord}
                         </h3>
 
-                        <motion.div
-                          className="text-4xl sm:text-5xl font-extrabold tracking-tight break-words"
-                          style={{
-                            color: isImpostor ? '#1e3a8a' : '#14532d'
-                          }}
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          transition={{
-                            type: "spring",
+                      <motion.div
+                        className={`text-4xl sm:text-5xl font-extrabold tracking-tight break-words ${
+                          isImpostor
+                            ? 'text-indigo-700 dark:text-fuchsia-300'
+                            : 'text-sky-700 dark:text-cyan-300'
+                        }`}
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{
+                          type: "spring",
                             stiffness: 200,
                             delay: 0.4
                           }}
@@ -236,7 +238,7 @@ export default function RoleRevealScreen() {
                         </motion.div>
                       </motion.div>
 
-                      {/* Hint for Impostor */}
+                      
                       {isImpostor && showHint && hint && (
                         <motion.div
                           className="bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 p-5 rounded-2xl shadow-inner border border-slate-300 dark:border-slate-600"
@@ -258,7 +260,7 @@ export default function RoleRevealScreen() {
                 </CardReveal>
               </div>
 
-              {/* Next Button */}
+              
               <AnimatePresence>
                 {cardRevealed && (
                   <motion.div
@@ -285,7 +287,7 @@ export default function RoleRevealScreen() {
                       {isLastPlayer ? (
                         <>
                           <LuCheck className="w-5 h-5" />
-                          {t.roleReveal.startDiscussion}
+                          {t.roleReveal.goToStarting}
                         </>
                       ) : (
                         <>

@@ -18,12 +18,12 @@ export default function GameSetupScreen() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-400 to-orange-500 dark:from-slate-900 dark:via-slate-800 dark:to-slate-950 flex items-center justify-center p-4 sm:p-6 transition-colors duration-300">
       <div className="w-full max-w-2xl bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-4 sm:p-8 space-y-4 sm:space-y-6 max-h-screen overflow-y-auto custom-scrollbar border border-slate-200 dark:border-slate-700">
-        {/* Header con ThemeToggle */}
+        
         <div className="grid grid-cols-[auto_1fr_auto] items-start gap-4">
-          {/* Spacer invisible (mismo ancho que ThemeToggle) */}
+          
           <div className="w-10 sm:w-12" />
 
-          {/* Header centrado */}
+          
           <div className="text-center space-y-2">
             <LuGamepad className="text-5xl sm:text-6xl text-yellow-500 dark:text-yellow-400 mx-auto" />
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
@@ -34,28 +34,28 @@ export default function GameSetupScreen() {
             </p>
           </div>
 
-          {/* ThemeToggle a la derecha */}
+          
           <ThemeToggle />
         </div>
 
-        {/* Language Toggle */}
+        
         <div className="flex justify-center">
           <LanguageToggle />
         </div>
 
-        {/* Player Counter */}
+        
         <PlayerCounter />
 
-        {/* Impostor Counter */}
+        
         <ImpostorCounter />
 
-        {/* Player Names */}
+        
         <PlayerNameInput />
 
-        {/* Category Selector */}
+        
         <CategorySelector />
 
-        {/* Hint Toggle */}
+        
         <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 dark:bg-slate-700 rounded-lg transition-colors">
           <div>
             <div className="text-sm sm:text-base font-medium text-gray-900 dark:text-white flex items-center gap-2">
@@ -69,6 +69,9 @@ export default function GameSetupScreen() {
           <button
             type="button"
             onClick={() => setShowHint(!showHint)}
+            role="switch"
+            aria-checked={showHint}
+            aria-label={t.setup.hintForImpostor}
             className={`
               relative w-12 h-7 sm:w-14 sm:h-8 rounded-full transition-colors flex-shrink-0
               ${showHint ? 'bg-yellow-500 dark:bg-yellow-600' : 'bg-gray-300 dark:bg-gray-600'}
@@ -81,7 +84,7 @@ export default function GameSetupScreen() {
           </button>
         </div>
 
-        {/* Start Button */}
+        
         <Button
           size="lg"
           onClick={startGame}

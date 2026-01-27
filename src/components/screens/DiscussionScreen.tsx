@@ -17,12 +17,16 @@ export default function DiscussionScreen() {
   const aliveImpostors = alivePlayers.filter((p: Player) => p.role === 'impostor');
 
   useEffect(() => {
+    setTimeLeft(GAME_CONFIG.DISCUSSION_TIME_SECONDS);
+  }, [round]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => prev > 0 ? prev - 1 : 0);
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [round]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -31,14 +35,14 @@ export default function DiscussionScreen() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-6">
       <div className="w-full max-w-2xl space-y-8">
-        {/* Timer Circular */}
+        
         <motion.div
           className="relative mx-auto w-64 h-64"
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", stiffness: 100, damping: 15 }}
         >
-          {/* Círculo de fondo */}
+          
           <svg className="w-full h-full transform -rotate-90">
             <circle
               cx="128"
@@ -48,7 +52,7 @@ export default function DiscussionScreen() {
               strokeWidth="16"
               fill="none"
             />
-            {/* Círculo de progreso */}
+            
             <motion.circle
               cx="128"
               cy="128"
@@ -72,7 +76,7 @@ export default function DiscussionScreen() {
             </defs>
           </svg>
 
-          {/* Contenido central */}
+          
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <LuClock className="text-4xl text-blue-400 mb-3" />
             <div className="text-6xl font-black text-white">
@@ -84,14 +88,14 @@ export default function DiscussionScreen() {
           </div>
         </motion.div>
 
-        {/* Card principal */}
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl shadow-2xl p-8 space-y-6 border border-slate-700"
         >
-          {/* Header */}
+          
           <div className="text-center">
             <h2 className="text-4xl font-black text-white mb-2 flex items-center justify-center gap-3">
               <LuMessageCircle />
@@ -102,7 +106,7 @@ export default function DiscussionScreen() {
             </p>
           </div>
 
-          {/* Stats Cards */}
+          
           <div className="grid grid-cols-2 gap-4">
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -129,7 +133,7 @@ export default function DiscussionScreen() {
             </motion.div>
           </div>
 
-          {/* Players List */}
+          
           <div className="space-y-2">
             <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">
               {t.discussion.playersInGame}
@@ -151,7 +155,7 @@ export default function DiscussionScreen() {
             </div>
           </div>
 
-          {/* Rules */}
+          
           <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-5">
             <h4 className="font-bold text-yellow-400 mb-3 flex items-center gap-2">
               <LuLightbulb />
@@ -164,7 +168,7 @@ export default function DiscussionScreen() {
             </ul>
           </div>
 
-          {/* Voting Button */}
+          
           <Button
             size="lg"
             onClick={startVoting}

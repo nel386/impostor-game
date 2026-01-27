@@ -7,7 +7,11 @@ export default function LanguageToggle() {
   const { language, setLanguage } = useGameStore();
 
   return (
-    <div className="relative inline-flex items-center gap-1 p-1.5 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700">
+    <div
+      className="relative inline-flex items-center gap-1 p-1.5 bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700"
+      role="group"
+      aria-label="Language"
+    >
       <motion.div
         className="absolute h-[calc(100%-6px)] bg-gradient-to-br from-yellow-400 to-orange-500 dark:from-yellow-500 dark:to-orange-600 rounded-lg shadow-md"
         animate={{
@@ -20,12 +24,13 @@ export default function LanguageToggle() {
       <button
         type="button"
         onClick={() => setLanguage('es')}
+        aria-pressed={language === 'es'}
         className={`
           relative z-10 px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2
           ${language === 'es' ? 'text-white' : 'text-gray-600 dark:text-gray-400'}
         `}
       >
-        {/* Bandera España SVG */}
+        
         <svg className="w-6 h-4 rounded shadow-sm" viewBox="0 0 3 2">
           <rect width="3" height="2" fill="#c60b1e" />
           <rect width="3" height="0.5" y="0.75" fill="#ffc400" />
@@ -36,12 +41,13 @@ export default function LanguageToggle() {
       <button
         type="button"
         onClick={() => setLanguage('en')}
+        aria-pressed={language === 'en'}
         className={`
           relative z-10 px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2
           ${language === 'en' ? 'text-white' : 'text-gray-600 dark:text-gray-400'}
         `}
       >
-        {/* Bandera UK SVG */}
+        
         <svg className="w-6 h-4 rounded shadow-sm" viewBox="0 0 60 30">
           <rect width="60" height="30" fill="#012169" />
           <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6" />

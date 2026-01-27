@@ -2,9 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========================================
-   CUSTOM ANIMATIONS - PRO LEVEL
-   ======================================== */
+
 
 @keyframes fadeIn {
   from {
@@ -70,9 +68,7 @@
   animation: slideUp 0.4s ease-out;
 }
 
-/* ========================================
-   GLOBAL STYLES
-   ======================================== */
+
 
 * {
   box-sizing: border-box;
@@ -87,9 +83,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ========================================
-   ACCESSIBILITY
-   ======================================== */
+
 
 button:focus-visible,
 a:focus-visible {
@@ -97,18 +91,14 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
-/* ========================================
-   SMOOTH TRANSITIONS
-   ======================================== */
+
 
 button,
 a {
   transition: all 0.2s ease;
 }
 
-/* ========================================
-   NO SELECT FOR GAME ELEMENTS
-   ======================================== */
+
 
 .no-select {
   -webkit-user-select: none;

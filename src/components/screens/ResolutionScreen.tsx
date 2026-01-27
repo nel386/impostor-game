@@ -2,6 +2,7 @@ import { LuArrowRight, LuCircleCheck, LuCircleX } from 'react-icons/lu';
 import { useTranslation } from '../../i18n/useTranslation';
 import { useGameStore } from '../../store/gameStore';
 import Button from '../ui/Button';
+import { checkVictory } from '../../utils/gameLogic';
 
 export default function ResolutionScreen() {
   const { t } = useTranslation();
@@ -14,14 +15,14 @@ export default function ResolutionScreen() {
 
   const alivePlayers = players.filter(p => p.isAlive);
   const aliveImpostors = alivePlayers.filter(p => p.role === 'impostor');
-  const willGameEnd = aliveImpostors.length === 0 || (alivePlayers.length <= 4 && aliveImpostors.length > 0);
+  const willGameEnd = checkVictory(alivePlayers.length, aliveImpostors.length) !== null;
 
   if (!lastEliminatedPlayer) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 dark:from-black dark:to-slate-950 flex items-center justify-center p-6 transition-colors duration-300">
       <div className="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-8 space-y-6 animate-scale-in border border-slate-200 dark:border-slate-700">
-        {/* Result Icon */}
+        
         <div className="text-center">
           <div className="text-8xl mb-4 animate-bounce-in flex justify-center">
             {lastEliminatedWasImpostor ? (
@@ -41,7 +42,7 @@ export default function ResolutionScreen() {
           </div>
         </div>
 
-        {/* Message */}
+        
         <div className={`
           p-4 rounded-lg
           ${lastEliminatedWasImpostor
@@ -67,7 +68,7 @@ export default function ResolutionScreen() {
           </p>
         </div>
 
-        {/* Stats */}
+        
         {!willGameEnd && (
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-gray-100 dark:bg-slate-700 p-3 rounded-lg text-center">
@@ -89,7 +90,7 @@ export default function ResolutionScreen() {
           </div>
         )}
 
-        {/* Continue Button */}
+        
         <Button
           size="lg"
           onClick={continueGame}

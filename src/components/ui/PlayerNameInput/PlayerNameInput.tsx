@@ -17,7 +17,7 @@ export default function PlayerNameInput() {
 
   return (
     <div className="space-y-4">
-      {/* Toggle mejorado */}
+      
       <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-50 dark:bg-slate-700 rounded-lg gap-3 transition-colors">
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <LuUsers className="text-xl text-gray-600 dark:text-gray-300 flex-shrink-0" />
@@ -34,6 +34,9 @@ export default function PlayerNameInput() {
         <button
           type="button"
           onClick={toggleCustomNames}
+          role="switch"
+          aria-checked={useCustomNames}
+          aria-label={t.playerNameInput.customNames}
           className={`
             relative w-12 h-7 sm:w-14 sm:h-8 rounded-full transition-all flex-shrink-0
             ${useCustomNames ? 'bg-yellow-500 dark:bg-yellow-600' : 'bg-gray-300 dark:bg-gray-600'}
@@ -49,7 +52,7 @@ export default function PlayerNameInput() {
         </button>
       </div>
 
-      {/* Inputs con animación */}
+      
       <AnimatePresence>
         {useCustomNames && (
           <motion.div
@@ -60,7 +63,7 @@ export default function PlayerNameInput() {
             className="overflow-hidden"
           >
             <div className="bg-gray-50 dark:bg-slate-700 rounded-lg p-3 sm:p-4 space-y-3 border border-gray-200 dark:border-gray-600 transition-colors">
-              {/* Header con contador */}
+              
               <div className="flex items-center justify-between">
                 <div className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
                   {t.playerNameInput.enterNames}
@@ -76,7 +79,7 @@ export default function PlayerNameInput() {
                 )}
               </div>
 
-              {/* Scroll container mejorado */}
+              
               <div className="custom-scrollbar max-h-56 sm:max-h-64 overflow-y-auto pr-2 space-y-2 sm:space-y-2.5">
                 {Array.from({ length: totalPlayers }, (_, i) => {
                   const hasValue = customNames[i]?.trim() !== '';
@@ -116,7 +119,7 @@ export default function PlayerNameInput() {
                           `}
                         />
 
-                        {/* Botón para limpiar */}
+                        
                         {hasValue && (
                           <motion.button
                             initial={{ scale: 0 }}
@@ -135,7 +138,7 @@ export default function PlayerNameInput() {
                 })}
               </div>
 
-              {/* Footer info mejorado */}
+              
               <div className="flex items-start gap-2 pt-1">
                 <LuInfo className="text-yellow-500 dark:text-yellow-400 text-base flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-gray-500 dark:text-gray-400">

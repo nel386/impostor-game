@@ -17,6 +17,7 @@ export type Role = 'civil' | 'impostor';
 export type GameStatus =
   | 'setup'
   | 'reveal'
+  | 'starting'
   | 'discussion'
   | 'voting'
   | 'resolution'
@@ -61,6 +62,7 @@ export interface GameState extends GameConfig {
   votes: Record<number, number>; 
   lastEliminatedPlayer: Player | null;
   lastEliminatedWasImpostor: boolean;
+  startingPlayerId: number | null;
 }
 
 export interface CategoryInfo {

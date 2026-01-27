@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { Category, GameConfig, GameState, Language, Player } from '../types/game';
-import { calculateImpostorCount, selectWord } from '../utils/gameLogic';
+import { calculateImpostorCount, checkVictory, selectWord, shufflePlayers } from '../utils/gameLogic';
 import { LANGUAGES } from '@/config/constants';
 
 interface GameStore extends GameState {
@@ -48,6 +48,7 @@ const initialState: GameState = {
   votes: {},
   lastEliminatedPlayer: null,
   lastEliminatedWasImpostor: false,
+  startingPlayerId: null,
 };
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -135,8 +136,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       };
     });
 
-    const shuffled = [...players].sort(() => Math.random() - 0.5);
+    const shuffled = shufflePlayers(players);
     shuffled.slice(0, impostorCount).forEach(p => p.role = 'impostor');
+    const startingPlayerId = players[Math.floor(Math.random() * players.length)]?.id ?? null;
 
     set({
       word: wordData.word,
@@ -149,6 +151,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       votes: {},
       lastEliminatedPlayer: null,
       winner: null,
+      startingPlayerId,
     });
   },
 
@@ -157,7 +160,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const nextIndex = state.currentRevealIndex + 1;
 
     if (nextIndex >= state.players.length) {
-      set({ gameStatus: 'discussion' });
+      set({ gameStatus: 'starting' });
     } else {
       set({ currentRevealIndex: nextIndex });
     }
@@ -227,13 +230,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const alivePlayers = state.players.filter(p => p.isAlive);
     const aliveImpostors = alivePlayers.filter(p => p.role === 'impostor');
 
-    if (aliveImpostors.length === 0) {
-      set({ gameStatus: 'ended', winner: 'civils' });
-      return;
-    }
-
-    if (alivePlayers.length <= 4 && aliveImpostors.length > 0) {
-      set({ gameStatus: 'ended', winner: 'impostors' });
+    const winner = checkVictory(alivePlayers.length, aliveImpostors.length);
+    if (winner) {
+      set({ gameStatus: 'ended', winner });
       return;
     }
 

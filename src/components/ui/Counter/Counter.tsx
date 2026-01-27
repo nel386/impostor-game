@@ -77,13 +77,13 @@ export default function Counter({
 
     return (
         <div className="space-y-2.5">
-            {/* Label */}
+            
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-300 transition-colors">
                 <Icon className="text-lg" />
                 <span>{label}</span>
             </label>
 
-            {/* Counter Card - Más compacto */}
+            
             <div
                 className={`
           relative overflow-hidden rounded-xl border-2 ${scheme.border} ${scheme.bg}
@@ -92,7 +92,7 @@ export default function Counter({
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
             >
-                {/* Gradient decorativo */}
+                
                 <motion.div
                     className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${scheme.gradient}`}
                     initial={{ scaleX: 0 }}
@@ -102,7 +102,7 @@ export default function Counter({
 
                 <div className="px-4 py-2.5">
                     <div className="flex items-center justify-center gap-3">
-                        {/* Botón Decrementar - Más pequeño */}
+                        
                         <motion.button
                             type="button"
                             onClick={handleDecrement}
@@ -119,7 +119,7 @@ export default function Counter({
                             <HiMinus className="w-4 h-4" />
                         </motion.button>
 
-                        {/* Display - Más compacto */}
+                        
                         <div className="flex-1 flex items-center justify-center">
                             <div className="space-y-1.5 w-full">
                                 <AnimatePresence mode="wait">
@@ -135,7 +135,7 @@ export default function Counter({
                                     </motion.div>
                                 </AnimatePresence>
 
-                                {/* Progress Bar - Más delgada */}
+                                
                                 <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mx-auto max-w-[180px]">
                                     <motion.div
                                         className={`h-full bg-gradient-to-r ${scheme.gradient}`}
@@ -147,7 +147,7 @@ export default function Counter({
                             </div>
                         </div>
 
-                        {/* Botón Incrementar - Más pequeño */}
+                        
                         <motion.button
                             type="button"
                             onClick={handleIncrement}
@@ -165,7 +165,7 @@ export default function Counter({
                         </motion.button>
                     </div>
 
-                    {/* Helper Text */}
+                    
                     {helperText && (
                         <motion.p
                             initial={{ opacity: 0 }}

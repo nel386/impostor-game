@@ -9,23 +9,37 @@ import Button from '../ui/Button';
 
 export default function VotingScreen() {
   const { t } = useTranslation();
-  const { players, skipVoting } = useGameStore();
+  const { players, castVote, resolveVoting, skipVoting } = useGameStore();
   const [selectedPlayer, setSelectedPlayer] = useState<number | null>(null);
   const [confirmed, setConfirmed] = useState(false);
   const [showSkipConfirm, setShowSkipConfirm] = useState(false);
+  const [currentVoterIndex, setCurrentVoterIndex] = useState(0);
 
   const alivePlayers = players.filter((p: Player) => p.isAlive);
+  const currentVoter = alivePlayers[currentVoterIndex];
 
   const handleVote = () => {
-    if (selectedPlayer !== null) {
-      setConfirmed(true);
-      setTimeout(() => {
-        skipVoting(selectedPlayer);
-      }, 1500);
-    }
+    if (!currentVoter || selectedPlayer === null) return;
+
+    castVote(currentVoter.id, selectedPlayer);
+    setConfirmed(true);
+
+    const isLastVoter = currentVoterIndex >= alivePlayers.length - 1;
+    setTimeout(() => {
+      setConfirmed(false);
+      setSelectedPlayer(null);
+
+      if (isLastVoter) {
+        resolveVoting();
+      } else {
+        setCurrentVoterIndex((prev) => prev + 1);
+      }
+    }, 700);
   };
 
   const handleSkipVoting = () => {
+    if (currentVoterIndex > 0) return;
+    setSelectedPlayer(null);
     setShowSkipConfirm(true);
   };
 
@@ -38,7 +52,7 @@ export default function VotingScreen() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-pink-900 flex items-center justify-center p-6">
       <div className="w-full max-w-3xl space-y-6">
-        {/* Header */}
+        
         <motion.div
           initial={{ y: -50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -51,9 +65,14 @@ export default function VotingScreen() {
           <p className="text-purple-200">
             {showSkipConfirm ? t.voting.whoWasEliminated : t.voting.eachPlayerVotes}
           </p>
+          {!showSkipConfirm && currentVoter && (
+            <p className="text-sm text-purple-100 mt-2">
+              {t.voting.currentVoter} <span className="font-bold">{currentVoter.name}</span>
+            </p>
+          )}
         </motion.div>
 
-        {/* Player Cards */}
+        
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <AnimatePresence>
             {alivePlayers.map((player: Player, index: number) => (
@@ -101,7 +120,7 @@ export default function VotingScreen() {
           </AnimatePresence>
         </div>
 
-        {/* Confirmed Animation */}
+        
         <AnimatePresence>
           {confirmed && (
             <motion.div
@@ -124,11 +143,11 @@ export default function VotingScreen() {
           )}
         </AnimatePresence>
 
-        {/* Action Buttons */}
+        
         <div className="space-y-3">
           {!showSkipConfirm ? (
             <>
-              {/* Botón principal de votar */}
+              
               <Button
                 size="lg"
                 onClick={handleVote}
@@ -141,8 +160,8 @@ export default function VotingScreen() {
                 </span>
               </Button>
 
-              {/* Botón secundario para saltar */}
-              {!confirmed && (
+              
+              {!confirmed && currentVoterIndex === 0 && (
                 <button
                   type="button"
                   onClick={handleSkipVoting}
@@ -155,7 +174,7 @@ export default function VotingScreen() {
             </>
           ) : (
             <>
-              {/* Modo "saltar" activado */}
+              
               <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-2xl p-4 mb-4">
                 <p className="text-yellow-200 text-sm text-center flex items-center justify-center gap-2">
                   <LuClipboardList className="text-lg" />

@@ -22,6 +22,7 @@ export type Translations = {
     voting: {
         title: string;
         eachPlayerVotes: string;
+        currentVoter: string;
         whoWasEliminated: string;
         voteConfirmed: string;
         confirmVote: string;
@@ -58,8 +59,9 @@ export type Translations = {
         impostor: string;
         hint: string;
         memorizeRole: string;
+        startingPlayer: string;
         nextPlayer: string;
-        startDiscussion: string;
+        goToStarting: string;
     };
     endGame: {
         civilsWin: string;
@@ -109,6 +111,11 @@ export type Translations = {
     common: {
         round: string;
     };
+    startingPlayer: {
+        subtitle: string;
+        cta: string;
+        fallback: string;
+    };
 };
 
 export const translations: Record<'es' | 'en', Translations> = {
@@ -136,6 +143,7 @@ export const translations: Record<'es' | 'en', Translations> = {
         voting: {
             title: 'Votación',
             eachPlayerVotes: 'Cada jugador vota en secreto',
+            currentVoter: 'Turno de',
             whoWasEliminated: '¿Quién fue eliminado?',
             voteConfirmed: '¡Voto confirmado!',
             confirmVote: 'Confirmar voto',
@@ -172,8 +180,9 @@ export const translations: Record<'es' | 'en', Translations> = {
             impostor: 'IMPOSTOR',
             hint: 'Pista',
             memorizeRole: 'Memoriza tu rol y pasa el dispositivo',
+            startingPlayer: 'Comienza',
             nextPlayer: 'Siguiente jugador',
-            startDiscussion: 'Empezar discusión',
+            goToStarting: 'Ver quién empieza',
         },
         endGame: {
             civilsWin: '¡Civiles Ganan!',
@@ -223,6 +232,11 @@ export const translations: Record<'es' | 'en', Translations> = {
         common: {
             round: 'Ronda',
         },
+        startingPlayer: {
+            subtitle: 'Este jugador da la primera pista',
+            cta: 'Empezar discusión',
+            fallback: 'Jugador',
+        },
     },
     en: {
         setup: {
@@ -248,6 +262,7 @@ export const translations: Record<'es' | 'en', Translations> = {
         voting: {
             title: 'Voting',
             eachPlayerVotes: 'Each player votes in secret',
+            currentVoter: 'Turn of',
             whoWasEliminated: 'Who was eliminated?',
             voteConfirmed: 'Vote confirmed!',
             confirmVote: 'Confirm vote',
@@ -284,8 +299,9 @@ export const translations: Record<'es' | 'en', Translations> = {
             impostor: 'IMPOSTOR',
             hint: 'Hint',
             memorizeRole: 'Memorize your role and pass the device',
+            startingPlayer: 'Starting with',
             nextPlayer: 'Next player',
-            startDiscussion: 'Start discussion',
+            goToStarting: 'See who starts',
         },
         endGame: {
             civilsWin: 'Civils Win!',
@@ -334,6 +350,11 @@ export const translations: Record<'es' | 'en', Translations> = {
         },
         common: {
             round: 'Round',
+        },
+        startingPlayer: {
+            subtitle: 'This player gives the first clue',
+            cta: 'Start discussion',
+            fallback: 'Player',
         },
     },
 };
